@@ -1,0 +1,14 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="24" height="144" viewBox="0 0 24 144" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Content">
+<g id="Frame">
+<path id="Vector" d="M10.586 6.31633L5.414 12.3503" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M18.586 15.6497L13.414 21.6837" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_3" d="M6 14H18" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_4" d="M12 25.6667C13.1046 25.6667 14 24.622 14 23.3333C14 22.0447 13.1046 21 12 21C10.8954 21 10 22.0447 10 23.3333C10 24.622 10.8954 25.6667 12 25.6667Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_5" d="M12 7C13.1046 7 14 5.95533 14 4.66667C14 3.378 13.1046 2.33333 12 2.33333C10.8954 2.33333 10 3.378 10 4.66667C10 5.95533 10.8954 7 12 7Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_6" d="M20 16.3333C21.1046 16.3333 22 15.2887 22 14C22 12.7113 21.1046 11.6667 20 11.6667C18.8954 11.6667 18 12.7113 18 14C18 15.2887 18.8954 16.3333 20 16.3333Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_7" d="M4 16.3333C5.10457 16.3333 6 15.2887 6 14C6 12.7113 5.10457 11.6667 4 11.6667C2.89543 11.6667 2 12.7113 2 14C2 15.2887 2.89543 16.3333 4 16.3333Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<line id="Divider" x1="13" y1="44" x2="13" y2="144" stroke="#0C0D0C" stroke-opacity="0.15" stroke-width="2"/>
+</g>
+</svg>

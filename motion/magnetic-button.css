@@ -1,0 +1,21 @@
+/* Isolated magnetic-button layer. Removing this file restores static styling. */
+[data-motion-target~="magnetic-button"] {
+  transform: translate3d(0, 0, 0);
+  transform-origin: center;
+  will-change: transform;
+}
+
+[data-motion-target~="magnetic-button"] > .magnetic-button__label {
+  display: inline-block;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  [data-motion-target~="magnetic-button"],
+  [data-motion-target~="magnetic-button"] > .magnetic-button__label {
+    transform: none !important;
+    will-change: auto;
+  }
+}

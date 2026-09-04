@@ -1,81 +1,106 @@
-<!DOCTYPE html>
-<html lang="ru">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loopstack</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
-    @import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap');
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; }
-    body { background: #000; min-height: 100vh; overflow: hidden; position: relative; cursor: none; }
-    #top-gradient { position: fixed; top: -30vh; left: 0; width: 100vw; height: auto; display: block; z-index: 0; pointer-events: none; }
-    .hero-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 6vh; width: 95%; max-width: 1100px; margin: 0 auto; }
-    .hero-title { font-family: 'Playfair Display', Georgia, serif; font-size: 2.8rem; font-weight: 400; color: #fff; line-height: 1.15; margin-bottom: 2.2rem; letter-spacing: -.015em; text-shadow: 0 4px 30px rgba(0,0,0,.5); }
-    .hero-btn { font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 500; letter-spacing: .02em; color: #fff; background: #000; border: 1px solid rgba(255,255,255,.18); padding: 1.3rem 2.5rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: .9rem; cursor: none; transition: all .3s cubic-bezier(.16,1,.3,1); box-shadow: 0 4px 25px rgba(0,0,0,.4); outline: none; }
-    .hero-btn:hover { background: #fff; color: #000; border-color: #fff; transform: translateY(-2px); box-shadow: 0 6px 30px rgba(0,0,0,.3); }
-    .hero-btn:active { transform: translateY(0); }
-    .blinking-dot { width: 10px; height: 10px; background: #39FF14; border-radius: 50%; position: relative; display: inline-block; animation: pulse-glow 2s infinite ease-in-out; }
-    .blinking-dot::after { content: ''; position: absolute; inset: -5px; background: rgba(57,255,20,.45); border-radius: 50%; animation: wave-expand 2s infinite ease-in-out; }
-    @keyframes pulse-glow { 0%,100% { opacity:.5; transform:scale(.85); box-shadow:0 0 4px rgba(57,255,20,.3) } 50% { opacity:1; transform:scale(1.1); box-shadow:0 0 12px rgba(57,255,20,.9) } }
-    @keyframes wave-expand { 0% { transform:scale(.6); opacity:.9 } 100% { transform:scale(2.3); opacity:0 } }
-    .footer-container { position: fixed; top: 50vh; left: 20px; right: 20px; width: calc(100vw - 40px); transform: translateY(-50%); z-index: 3; display: flex; flex-direction: column; }
-    .footer-top { display:flex; justify-content:space-between; align-items:flex-end; width:100%; padding:0 5px; }
-    .footer-title { font-family:'General Sans',-apple-system,sans-serif; font-size:1.4rem; font-weight:400; color:#fff; letter-spacing:-.015em; margin:0; }
-    .footer-divider { border:0; height:1px; background:rgba(255,255,255,.2); margin:1.6rem 0; width:100%; }
-    .footer-bottom { display:flex; justify-content:space-between; align-items:center; width:100%; padding:0 5px; }
-    .footer-socials { display:flex; gap:1.25rem; align-items:center; flex:1; }
-    .social-icon { color:rgba(255,255,255,.55); transition:all .3s cubic-bezier(.16,1,.3,1); display:inline-flex; align-items:center; justify-content:center; text-decoration:none; }
-    .social-icon:hover { color:#fff; transform:translateY(-2px); }
-    .footer-links { display:flex; gap:2.8rem; justify-content:center; align-items:center; flex:2; }
-    .footer-link { font-family:'Outfit',sans-serif; font-size:.95rem; font-weight:400; color:#fff; text-decoration:none; letter-spacing:.03em; transition:opacity .3s ease,transform .3s ease; }
-    .footer-link:hover { opacity:.75; transform:translateY(-1px); }
-    .footer-copyright { font-family:'Outfit',sans-serif; font-size:.95rem; font-weight:400; color:rgba(255,255,255,.45); text-align:right; flex:1; letter-spacing:.02em; }
-    .footer-logo-wrap { position:fixed; bottom:20px; left:0; right:0; width:100%; padding:0 20px; display:flex; justify-content:center; align-items:center; z-index:3; }
-    .footer-logo-text { font-family:'General Sans',-apple-system,sans-serif; font-size:21.9vw; font-weight:400; color:#fff; letter-spacing:-.03em; margin-right:-.03em; transform:translateX(-20px); line-height:.8; text-align:center; width:100%; pointer-events:none; opacity:.95; white-space:nowrap; }
-    .video-container { position:fixed; bottom:0; left:0; width:100vw; height:90vh; overflow:hidden; z-index:-1; }
-    #bg-video { width:100%; height:110%; object-fit:cover; display:block; transform:translateY(0); }
-    .glass-cursor-card { position:fixed; top:0; left:0; z-index:99999; pointer-events:none; padding:.75rem 1.5rem; background:rgba(255,255,255,.08); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.18); border-radius:9999px; box-shadow:inset 0 1px 0 rgba(255,255,255,.15); transform:translate(-50%,-50%) scale(0); opacity:0; will-change:transform,opacity; transition:opacity .4s cubic-bezier(.16,1,.3,1),background .35s cubic-bezier(.16,1,.3,1),border-color .35s cubic-bezier(.16,1,.3,1),box-shadow .35s cubic-bezier(.16,1,.3,1); }
-    .glass-cursor-card.active,.cursor-ring-outline.active { opacity:1; }
-    .cursor-card-text { font-family:'General Sans',-apple-system,sans-serif; font-size:.85rem; font-weight:500; letter-spacing:.06em; color:#39FF14; text-transform:uppercase; white-space:nowrap; text-shadow:0 0 8px rgba(57,255,20,.45); }
-    .cursor-card-text .text-white { color:#fff; text-shadow:0 1px 3px rgba(0,0,0,.25); }
-    .cursor-ring-outline { position:fixed; top:0; left:0; width:48px; height:48px; border:1.5px solid rgba(255,255,255,.45); border-radius:50%; z-index:99998; pointer-events:none; transform:translate(-50%,-50%) scale(0); opacity:0; will-change:transform,opacity; transition:opacity .4s cubic-bezier(.16,1,.3,1),border-color .4s ease; }
-    .cursor-ring-outline.expanded { border-color:rgba(255,255,255,.15); }
-    .hero-title .word-wrapper { display:inline-block; overflow:hidden; vertical-align:bottom; padding-bottom:.15em; margin-bottom:-.15em; }
-    .hero-title .word-inner { display:inline-block; opacity:0; transform:translateY(105%); filter:blur(20px); animation:word-reveal-mask 1.3s cubic-bezier(.05,.9,.1,1) forwards; }
-    @keyframes word-reveal-mask { 0% { opacity:0;transform:translateY(105%);filter:blur(20px) } 30% { opacity:1 } 100% { opacity:1;transform:translateY(0);filter:blur(0) } }
-    .footer-logo-text .letter-wrapper { display:inline-block; overflow:hidden; vertical-align:bottom; line-height:.8; }
-    .footer-logo-text .letter-inner { display:inline-block; opacity:0; transform:translateX(-105%); filter:blur(20px); animation:letter-reveal-mask 1.2s cubic-bezier(.05,.9,.1,1) forwards; }
-    @keyframes letter-reveal-mask { 0% { opacity:0;transform:translateX(-105%);filter:blur(20px) } 25% { opacity:1 } 100% { opacity:.95;transform:translateX(0);filter:blur(0) } }
-    @media (max-width:700px) { .hero-title{font-size:2rem}.footer-title{font-size:1rem}.footer-links{gap:1rem}.footer-link{font-size:.78rem}.footer-copyright{font-size:.72rem}.footer-socials{gap:.7rem}.footer-logo-text{font-size:21.5vw}.glass-cursor-card,.cursor-ring-outline{display:none} body,.hero-btn{cursor:auto} }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Tesla vehicles, charging and home energy.">
+  <title>Tesla</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="motion/magnetic-button.css">
+  <script src="motion/magnetic-button.js" defer></script>
 </head>
 <body>
-  <img src="https://api.getlayers.ai/storage/v1/object/public/public/assets/loopstack-f8c64439bf/black_gradient.svg" alt="Top Gradient" id="top-gradient">
-  <main class="hero-content"><h1 class="hero-title">Apply Now to be part <br> of the closed beta</h1><button class="hero-btn"><span class="btn-text">Book a demo</span><span class="blinking-dot"></span></button></main>
-  <footer class="footer-container"><div class="footer-top"><h2 class="footer-title">Stay in Touch</h2><h2 class="footer-title quote">Think. Build. Repeat.</h2></div><hr class="footer-divider"><div class="footer-bottom"><div class="footer-socials">
-    <a href="#" aria-label="LinkedIn" class="social-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
-    <a href="#" aria-label="X" class="social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg></a>
-    <a href="#" aria-label="Instagram" class="social-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
-  </div><nav class="footer-links"><a href="#about" class="footer-link">About</a><a href="#features" class="footer-link">Features</a><a href="#pricing" class="footer-link">Pricing</a><a href="#contact" class="footer-link">Contact</a></nav><div class="footer-copyright">© 2026 Loopstack</div></div></footer>
-  <div class="footer-logo-wrap"><h2 class="footer-logo-text">Loopstack</h2></div>
-  <div class="video-container"><video autoplay muted playsinline loop id="bg-video"><source src="https://api.getlayers.ai/storage/v1/object/public/public/assets/loopstack-f8c64439bf/flower.mp4" type="video/mp4">Ваш браузер не поддерживает видео.</video></div>
-  <div id="cursor-ring" class="cursor-ring-outline"></div><div id="glass-card" class="glass-cursor-card"><span class="cursor-card-text"><span class="text-white">Say</span> Hello!</span></div>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const logoText=document.querySelector('.footer-logo-text');
-      if(logoText){const text=logoText.textContent.trim();logoText.innerHTML='';[...text].forEach((char,index)=>{const wrapper=document.createElement('span');wrapper.className='letter-wrapper';const inner=document.createElement('span');inner.textContent=char;inner.className='letter-inner';inner.style.animationDelay=`${index*.09}s`;wrapper.appendChild(inner);logoText.appendChild(wrapper);});}
-      const heroTitle=document.querySelector('.hero-title');
-      if(heroTitle){const parts=heroTitle.innerHTML.split(/(\s+|<br\s*\/?>)/i);heroTitle.innerHTML='';let wordIndex=0;parts.forEach(part=>{if(part.trim()==='')heroTitle.appendChild(document.createTextNode(' '));else if(part.toLowerCase().startsWith('<br'))heroTitle.appendChild(document.createElement('br'));else{const wrapper=document.createElement('span');wrapper.className='word-wrapper';const inner=document.createElement('span');inner.className='word-inner';inner.textContent=part;inner.style.animationDelay=`${wordIndex++*.1}s`;wrapper.appendChild(inner);heroTitle.appendChild(wrapper);}});}
-      const glassCard=document.getElementById('glass-card'),cursorRing=document.getElementById('cursor-ring');
-      if(glassCard&&cursorRing){let mouseX=innerWidth/2,mouseY=innerHeight/2,cardX=mouseX,cardY=mouseY,ringX=mouseX,ringY=mouseY,isFirstMove=true,scale=0,targetScale=0,isHoveringBtn=false;
-        document.addEventListener('mousemove',e=>{mouseX=e.clientX;mouseY=e.clientY;if(isFirstMove){cardX=ringX=mouseX;cardY=ringY=mouseY;isFirstMove=false;glassCard.classList.add('active');cursorRing.classList.add('active');}if(!isHoveringBtn)targetScale=1;});
-        document.addEventListener('mouseleave',()=>targetScale=0);document.addEventListener('mouseenter',()=>{if(!isHoveringBtn)targetScale=1;});
-        const heroBtn=document.querySelector('.hero-btn');if(heroBtn){heroBtn.addEventListener('mouseenter',()=>{isHoveringBtn=true;targetScale=0;cursorRing.classList.add('expanded');});heroBtn.addEventListener('mouseleave',()=>{isHoveringBtn=false;targetScale=1;cursorRing.classList.remove('expanded');});}
-        const updatePhysics=()=>{cardX+=(mouseX-cardX)*.08;cardY+=(mouseY-cardY)*.08;ringX=mouseX;ringY=mouseY;scale+=(targetScale-scale)*.15;const ringScale=(cursorRing.classList.contains('expanded')?1.6:1)*(isHoveringBtn?1:scale);glassCard.style.transform=`translate3d(${cardX}px,${cardY}px,0) translate(-50%,-50%) scale(${scale})`;cursorRing.style.transform=`translate3d(${ringX}px,${ringY}px,0) translate(-50%,-50%) scale(${ringScale})`;requestAnimationFrame(updatePhysics);};updatePhysics();
-      }
-    });
-  </script>
+  <header class="site-header" data-section="navigation" data-motion-section>
+    <div class="nav-layout">
+      <a class="brand" href="#top" aria-label="Tesla home" data-motion-item="logo">
+        <img src="assets/tesla-logo.png" alt="Tesla" width="106" height="14">
+      </a>
+      <nav class="primary-nav" aria-label="Primary navigation" data-motion-group="navigation-links">
+        <a href="#vehicles">Vehicles</a><a href="#energy">Energy</a><a href="#charging">Charging</a><a href="#discover">Discover</a><a href="#shop">Shop</a>
+      </nav>
+      <div class="nav-actions"><button class="button button--primary button--nav" type="button" data-motion-item="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Жолоодож үзэх</span></button></div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title" data-section="hero" data-motion-section>
+      <img class="hero__media" src="assets/hero-model-3.png" alt="Silver Model 3 driving through a mountain landscape" width="2560" height="1082" data-motion-item="background">
+      <div class="container hero__container">
+        <div class="hero__content" data-motion-group="hero-copy">
+          <div class="hero__copy"><h1 id="hero-title">Model 3</h1><p>1.99% APR Available</p></div>
+          <div class="button-row" data-motion-group="hero-actions"><button class="button button--primary" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Одоо захиалах</span></button><button class="button button--light" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Дэлгэнгүй үзэх</span></button></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section feature" id="discover" aria-labelledby="feature-title" data-section="self-driving" data-motion-section>
+      <div class="container">
+        <article class="feature-card" data-motion-item="feature-card">
+          <div class="feature-card__content">
+            <div class="feature-card__body">
+              <div class="heading-group"><h2 id="feature-title">Full Self-Driving (Supervised)</h2><p>Makes every drive easier. Subscribe for $99/mo.1</p></div>
+              <dl class="metrics" data-motion-group="metrics">
+                <div class="metric"><dt>7x</dt><dd>Fewer Collisions</dd></div>
+                <div class="metric"><dt>13,534,294,722</dt><dd>Miles Driven</dd></div>
+              </dl>
+            </div>
+            <div class="button-row button-row--wide" data-motion-group="feature-actions"><button class="button button--dark" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Жолоодож үзэх цаг авах</span></button><button class="button button--light" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Дэлгэрэнгүй</span></button></div>
+          </div>
+          <div class="feature-card__media"><img src="assets/self-driving.png" alt="Tesla Full Self-Driving display and interior cameras" width="1684" height="900" data-motion-item="media"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section showcase" id="vehicles" aria-label="Tesla vehicles" data-section="vehicles" data-motion-section>
+      <div class="container showcase__viewport">
+        <div class="showcase__track" data-motion-group="vehicle-cards">
+          <article class="showcase-card" data-motion-item="card">
+            <img class="showcase-card__media" src="assets/vehicle-model-y-l.png" alt="White Model Y L Premium beside a city waterfront" width="2304" height="1305">
+            <div class="showcase-card__content"><div class="showcase-card__heading"><p class="tagline">Long Wheelbase Midsize SUV</p><h2>Model Y L Premium</h2></div><div class="showcase-card__footer"><p class="offer">Starting at $61,990</p><div class="button-row button-row--wide"><button class="button button--primary" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Одоо захиалах</span></button><button class="button button--light" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Дэлгэрэнгүй</span></button></div></div></div>
+          </article>
+          <article class="showcase-card" data-motion-item="card">
+            <img class="showcase-card__media" src="assets/vehicle-model-3.png" alt="Silver Model 3 driving through open country" width="1536" height="870">
+            <div class="showcase-card__content"><div class="showcase-card__heading"><p class="tagline">Sport Sedan</p><h2>Model 3</h2></div><div class="showcase-card__footer"><p class="offer">Lease From $419/mo</p><div class="button-row button-row--wide"><button class="button button--primary" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Одоо захиалах</span></button><button class="button button--light" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Дэлгэрэнгүй</span></button></div></div></div>
+          </article>
+          <article class="showcase-card" data-motion-item="card">
+            <img class="showcase-card__media" src="assets/vehicle-model-y.png" alt="White Model Y driving through open country" width="1536" height="870">
+            <div class="showcase-card__content"><div class="showcase-card__heading"><p class="tagline">Midsize SUV</p><h2>Model Y</h2></div><div class="showcase-card__footer"><p class="offer">Lease From $499/mo</p><div class="button-row button-row--wide"><button class="button button--primary" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Одоо захиалах</span></button><button class="button button--light" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Дэлгэрэнгүй</span></button></div></div></div>
+          </article>
+        </div>
+        <div class="showcase-controls" aria-hidden="true"><img class="slider-dots slider-dots--three" src="assets/slider-dots-3.svg" alt="" width="40" height="8"><div class="slider-arrows"><span class="slider-arrow"><img src="assets/arrow-back.svg" alt="" width="24" height="24"></span><span class="slider-arrow"><img src="assets/arrow-forward.svg" alt="" width="24" height="24"></span></div></div>
+      </div>
+    </section>
+
+    <section class="section promos" id="shop" aria-label="Offers and inventory" data-section="promotions" data-motion-section>
+      <div class="container promo-grid" data-motion-group="promo-cards">
+        <article class="promo-card" data-motion-item="card"><div class="promo-card__content"><div class="heading-group heading-group--compact"><h2>Current Offers</h2><p>Explore limited-time offers on Tesla vehicles.</p></div><button class="button button--light" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Дэлгэрэнгүй</span></button></div><div class="promo-card__media"><img src="assets/current-offers.png" alt="Tesla vehicle lineup" width="790" height="990"></div></article>
+        <article class="promo-card" data-motion-item="card"><div class="promo-card__content"><div class="heading-group heading-group--compact"><h2>Inventory</h2><p>Find new and Certified Pre-Owned Tesla vehicles available immediately.</p></div><div class="button-row button-row--compact"><button class="button button--light" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">New</span></button><button class="button button--light" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Pre-Owned</span></button></div></div><div class="promo-card__media"><img src="assets/inventory.png" alt="Rows of Tesla vehicles in inventory" width="790" height="956"></div></article>
+      </div>
+    </section>
+
+    <section class="section map-section" aria-label="Tesla charging locations map" data-section="charging-map" data-motion-section><div class="container map-frame" data-motion-item="map"><img src="assets/charging-map.png" alt="Map of Tesla charging locations across the United States" width="2814" height="1082"></div></section>
+
+    <section class="section charging" id="charging" aria-labelledby="charging-title" data-section="charging-stats" data-motion-section>
+      <div class="container charging__layout">
+        <div class="charging__content" data-motion-group="charging-copy"><div class="heading-group"><h2 id="charging-title">Find Your Charge</h2><p>View the network of Tesla Superchargers and Destination Chargers available near you.</p></div><div class="button-row button-row--wide"><button class="button button--dark" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">View Network</span></button><button class="button button--light" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Дэлгэрэнгүй</span></button></div></div>
+        <dl class="charging-stats" data-motion-group="charging-stats"><div class="charging-stat" data-motion-item="stat"><div class="charging-stat__value"><dt>38,490</dt><img src="assets/supercharger.svg" alt="" width="56" height="56" aria-hidden="true"></div><dd>Superchargers</dd></div><div class="charging-stat" data-motion-item="stat"><div class="charging-stat__value"><dt>410</dt><img src="assets/destination-charger.svg" alt="" width="56" height="56" aria-hidden="true"></div><dd>Destination Chargers</dd></div></dl>
+      </div>
+    </section>
+
+    <section class="section showcase" id="energy" aria-label="Tesla home energy" data-section="energy" data-motion-section>
+      <div class="container showcase__viewport">
+        <div class="showcase__track" data-motion-group="energy-cards">
+          <article class="showcase-card" data-motion-item="card"><img class="showcase-card__media" src="assets/solar-panels.png" alt="Solar panels on a modern home" width="1536" height="870"><div class="showcase-card__content showcase-card__content--simple"><div class="showcase-card__heading"><h2>Solar Panels</h2></div><div class="showcase-card__footer"><p class="offer">Power Your Home and Reduce Your Electricity Bil</p><div class="button-row button-row--wide"><button class="button button--primary" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Одоо захиалах</span></button><button class="button button--light" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Дэлгэрэнгүй</span></button></div></div></div></article>
+          <article class="showcase-card" data-motion-item="card"><img class="showcase-card__media" src="assets/powerwall.png" alt="Tesla Powerwall mounted on a home" width="4096" height="2320"><div class="showcase-card__content showcase-card__content--simple"><div class="showcase-card__heading"><h2>Powerwall</h2></div><div class="showcase-card__footer"><p class="offer">Keep Your Lights On During Outages</p><div class="button-row button-row--wide"><button class="button button--primary" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Одоо захиалах</span></button><button class="button button--light" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Дэлгэрэнгүй</span></button></div></div></div></article>
+        </div>
+        <div class="showcase-controls" aria-hidden="true"><img class="slider-dots slider-dots--two" src="assets/slider-dots-2.svg" alt="" width="24" height="8"><div class="slider-arrows"><span class="slider-arrow"><img src="assets/arrow-back.svg" alt="" width="24" height="24"></span><span class="slider-arrow"><img src="assets/arrow-forward.svg" alt="" width="24" height="24"></span></div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-section="footer" data-motion-section><div class="container footer__content"><img class="footer__divider" src="assets/divider.svg" alt="" aria-hidden="true"><nav class="footer-links" aria-label="Footer navigation" data-motion-group="footer-links"><span>Tesla © 2026</span><a href="#">Privacy policy</a><a href="#">Vehicle Recalls</a><a href="#">Contacts</a><a href="#">News</a><a href="#">Get Updates</a><a href="#">Locations</a><a href="#">Learn</a></nav></div></footer>
 </body>
 </html>
