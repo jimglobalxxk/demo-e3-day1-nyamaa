@@ -21,7 +21,7 @@
       <nav class="primary-nav" aria-label="Primary navigation" data-motion-group="navigation-links">
         <a href="#vehicles">Vehicles</a><a href="#energy">Energy</a><a href="#charging">Charging</a><a href="#discover">Discover</a><a href="#shop">Shop</a>
       </nav>
-      <div class="nav-actions"><button class="button button--primary button--nav" type="button" data-motion-item="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Жолоодож үзэх</span></button></div>
+      <div class="nav-actions"><button class="button button--primary button--nav" type="button" data-motion-item="button" data-motion-target="magnetic-button" data-cal-link="mkjim-xxk-osmx3g/e-zuvulguu-20" data-cal-namespace="e-zuvulguu-20" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'><span class="magnetic-button__label">Жолоодож үзэх</span></button></div>
     </div>
   </header>
 
@@ -47,7 +47,7 @@
                 <div class="metric"><dt>13,534,294,722</dt><dd>Miles Driven</dd></div>
               </dl>
             </div>
-            <div class="button-row button-row--wide" data-motion-group="feature-actions"><button class="button button--dark" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Жолоодож үзэх цаг авах</span></button><button class="button button--light" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Дэлгэрэнгүй</span></button></div>
+            <div class="button-row button-row--wide" data-motion-group="feature-actions"><button class="button button--dark" type="button" data-motion-target="magnetic-button" data-cal-link="mkjim-xxk-osmx3g/e-zuvulguu-20" data-cal-namespace="e-zuvulguu-20" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'><span class="magnetic-button__label">Жолоодож үзэх цаг авах</span></button><button class="button button--light" type="button" data-motion-target="magnetic-button"><span class="magnetic-button__label">Дэлгэрэнгүй</span></button></div>
           </div>
           <div class="feature-card__media"><img src="assets/self-driving.png" alt="Tesla Full Self-Driving display and interior cameras" width="1684" height="900" data-motion-item="media"></div>
         </article>
@@ -102,5 +102,49 @@
   </main>
 
   <footer class="site-footer" data-section="footer" data-motion-section><div class="container footer__content"><img class="footer__divider" src="assets/divider.svg" alt="" aria-hidden="true"><nav class="footer-links" aria-label="Footer navigation" data-motion-group="footer-links"><span>Tesla © 2026</span><a href="#">Privacy policy</a><a href="#">Vehicle Recalls</a><a href="#">Contacts</a><a href="#">News</a><a href="#">Get Updates</a><a href="#">Locations</a><a href="#">Learn</a></nav></div></footer>
+
+  <script>
+    (function (C, A, L) {
+      const push = function (api, args) { api.q.push(args); };
+      const document = C.document;
+
+      C.Cal = C.Cal || function () {
+        const cal = C.Cal;
+        const args = arguments;
+
+        if (!cal.loaded) {
+          cal.ns = {};
+          cal.q = cal.q || [];
+          document.head.appendChild(document.createElement("script")).src = A;
+          cal.loaded = true;
+        }
+
+        if (args[0] === L) {
+          const api = function () { push(api, arguments); };
+          const namespace = args[1];
+          api.q = api.q || [];
+
+          if (typeof namespace === "string") {
+            cal.ns[namespace] = cal.ns[namespace] || api;
+            push(cal.ns[namespace], args);
+            push(cal, ["initNamespace", namespace]);
+          } else {
+            push(cal, args);
+          }
+          return;
+        }
+
+        push(cal, args);
+      };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
+
+    Cal("init", "e-zuvulguu-20", { origin: "https://app.cal.com" });
+    Cal.config = Cal.config || {};
+    Cal.config.forwardQueryParams = true;
+    Cal.ns["e-zuvulguu-20"]("ui", {
+      hideEventTypeDetails: false,
+      layout: "month_view"
+    });
+  </script>
 </body>
 </html>
